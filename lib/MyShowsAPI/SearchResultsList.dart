@@ -18,13 +18,23 @@ class SearchResultsList extends StatelessWidget {
         future: MShowsAPI().search(_query),
         builder: (BuildContext context, AsyncSnapshot<List<Result>> snapshot) {
           if(snapshot.connectionState == ConnectionState.done){
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index){
-                  Result item = snapshot.data[index];
-                  return SearchResultCard(serial: item);
-                }
-            );
+            if(snapshot.data.isNotEmpty) {
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Result item = snapshot.data[index];
+                    return SearchResultCard(serial: item);
+                  }
+              );
+            }else{
+              return Center(
+                  child:  Text('Сериалов не найдено :(', style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize:16,
+                  ),),
+              );
+            }
           }else{
               return Center(child: CircularProgressIndicator());
           }

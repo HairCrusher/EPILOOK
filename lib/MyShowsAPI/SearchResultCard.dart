@@ -3,6 +3,7 @@ import 'package:flutter_app/Database/Database.dart';
 import 'package:flutter_app/MyShowsAPI/Response.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_app/main.dart';
 
 class SearchResultCard extends StatefulWidget {
   final Result _serial;
@@ -61,7 +62,7 @@ class SearchResultCardState extends State<SearchResultCard> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Text(
-                    serial.title,
+                    '${serial.title} (${serial.year})',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 30,
@@ -81,6 +82,7 @@ class SearchResultCardState extends State<SearchResultCard> {
                       onPressed: () async {
                         await DBProvider.db.newSerial(serial.toSerial());
                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('Сериал добавлен!'),duration: Duration(seconds: 1),));
+                        globalMainPage.currentState.switchPageTo(1);
                     },
                       color: Colors.blueAccent,
                       child: Text(

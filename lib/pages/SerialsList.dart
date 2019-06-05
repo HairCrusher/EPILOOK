@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Database/SerialModel.dart';
 import 'package:flutter_app/Database/Database.dart';
 import 'package:flutter_app/CardWidget2.dart';
-import 'dart:math' as math;
+
+import '../main.dart';
 
 
 class SerialsListPage extends StatefulWidget {
 
-  SerialsListPage({Key key}) : super(key:key);
+
+  SerialsListPage({Key key}) :
+        super(key:key);
 
   @override
   State createState() => _SerialsListPageState();
 }
 
 class _SerialsListPageState extends State<SerialsListPage>{
-
-  final _myListKey = GlobalKey<AnimatedListState>();
 
   void listStateUpdate(){
     this.setState(() {});
@@ -28,6 +29,39 @@ class _SerialsListPageState extends State<SerialsListPage>{
         future: DBProvider.db.getAllSerials(),
         builder: (BuildContext context, AsyncSnapshot<List<Serial>> snapshot) {
           if(snapshot.hasData){
+
+            if(snapshot.data.length == 0)
+              return Center(
+                child: Container(
+                  height: 150,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Вы еще не добавили не одного сериала!', style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize:16,
+                      ),),
+                      RaisedButton(
+                        onPressed: () {
+                          globalMainPage.currentState.switchPageTo(0);
+                        },
+                        color: Colors.blueAccent,
+                        textColor: Colors.white,
+                        child: Text('Добавить'),
+                      )
+                    ],
+                  )
+                )
+              );
+
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index){
+                  Serial item = snapshot.data[index];
+                  return SerialCard(serial: item, listStateUpdate: this.listStateUpdate, key: UniqueKey(),);
+                }
+            );
 //            return AnimatedList(
 //              key: _myListKey,
 //              initialItemCount: snapshot.data.length,
@@ -39,13 +73,6 @@ class _SerialsListPageState extends State<SerialsListPage>{
 //                  );
 //              },
 //            );
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index){
-                  Serial item = snapshot.data[index];
-                  return SerialCard(serial: item, listStateUpdate: this.listStateUpdate, key: UniqueKey(),);
-                }
-            );
 //            return OrientationBuilder(
 //              builder: (context, orientation) {
 //                return GridView.count(

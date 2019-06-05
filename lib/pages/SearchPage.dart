@@ -45,6 +45,12 @@ class SearchPageState extends State<SearchPage> {
                   icon: Icon(Icons.search, color: Colors.blueAccent,),
                   border: InputBorder.none,
                 ),
+                onChanged: (String str) {
+                  if(str.length >=3)
+                    setState(() {
+                      query = str;
+                    });
+                },
                 onSubmitted: (String str) {
                   setState(() {
                     query = str;

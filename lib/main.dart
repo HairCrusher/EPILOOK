@@ -11,6 +11,8 @@ void main() {
   });
 }
 
+GlobalKey<MainPageState> globalMainPage = GlobalKey();
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      home: MainPage(),
+      home: MainPage(key: globalMainPage,),
 //      routes: {
 //        '/':(BuildContext context) => MainPage(page_id: 1),
 //        '/search':(BuildContext context) => MainPage(page_id: 0,),
@@ -63,9 +65,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 class MainPage extends StatefulWidget {
+  MainPage({Key key}):super(key: key);
 
   @override
   State createState() => new MainPageState();
@@ -82,10 +83,16 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
     new Tab(icon: Icon(Icons.favorite)),
   ];
 
+  int _index = 1;
+
+  void switchPageTo(int index){
+    this._tabController.index = index;
+  }
+
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: myTabs.length, initialIndex: 1);
+    _tabController = new TabController(vsync: this, length: myTabs.length, initialIndex: _index);
   }
 
   @override
