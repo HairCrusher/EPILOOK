@@ -37,7 +37,7 @@ class _SerialsListPageState extends State<SerialsListPage>{
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('Вы еще не добавили не одного сериала!', style: TextStyle(
+                      Text('Вы еще не добавили ни одного сериала!', style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize:16,

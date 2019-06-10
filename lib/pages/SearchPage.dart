@@ -33,6 +33,7 @@ class SearchPageState extends State<SearchPage> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         return Column(
           children: <Widget>[
+            Expanded(child: SearchResultsList(query: query)),
             Container(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
@@ -58,7 +59,6 @@ class SearchPageState extends State<SearchPage> {
                 },
               ),
             ),
-            Expanded(child: SearchResultsList(query: query)),
           ],
         );
       }
