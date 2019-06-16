@@ -42,35 +42,32 @@ class DBProvider {
     );
   }
 
-  newSerial(Serial serial) async {
+
+  newSerial(Serial serial, {File localFile}) async {
     final db = await database;
 
-    var response = await get(serial.poster);
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-
     String timeStamp = new DateTime.now().millisecondsSinceEpoch.toString();
-
     String fileName = '$timeStamp.jpg';
-
     String dirPath = '${documentsDirectory.path}/images';
 
     await Directory(dirPath).create(recursive: true);
 
-    print('1');
-
     String filePath = '$dirPath/$fileName';
 
-    File file = new File(filePath);
+    if(localFile == null) {
+      var image = await get(serial.poster);
 
-    print('2');
+      File file = new File(filePath);
 
-    await file.writeAsBytes(response.bodyBytes);
-
-    print('3');
+      await file.writeAsBytes(image.bodyBytes);
+    }else{
+      await localFile.copy(filePath);
+    }
 
     serial.poster = filePath;
 
-    print(filePath);
+    print(serial);
 
     var res = await db.insert('Serials', serial.toMap());
     return res;

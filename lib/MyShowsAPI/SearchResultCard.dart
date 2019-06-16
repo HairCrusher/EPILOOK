@@ -40,7 +40,7 @@ class SearchResultCardState extends State<SearchResultCard> {
                 height: 192,
                 child: Center(child: CircularProgressIndicator(),),
               ),
-              errorWidget: (context, url, error) => new Icon(Icons.error),
+              errorWidget: (context, url, error) => new Icon(Icons.error, color: Colors.white,),
 //              errorWidget: (context, url, error) => new Text(error.toString()),
               fit: BoxFit.cover,
             ),
@@ -81,6 +81,7 @@ class SearchResultCardState extends State<SearchResultCard> {
                     RaisedButton(
                       onPressed: () async {
                         await DBProvider.db.newSerial(serial.toSerial());
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('Сериал добавлен!'),duration: Duration(seconds: 1),));
                         globalMainPage.currentState.switchPageTo(1);
                     },

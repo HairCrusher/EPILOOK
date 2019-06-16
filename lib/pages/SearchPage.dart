@@ -3,8 +3,7 @@ import 'package:flutter_app/MyShowsAPI/SearchResultsList.dart';
 import 'dart:io';
 
 class SearchPage extends StatefulWidget {
-
-  SearchPage({Key key}) : super(key:key);
+  SearchPage({Key key}) : super(key: key);
 
   @override
   State createState() => SearchPageState();
@@ -18,13 +17,12 @@ class SearchPageState extends State<SearchPage> {
     return FutureBuilder(
         future: loadPage(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if(snapshot.hasData){
+          if (snapshot.hasData) {
             return snapshot.data;
-          }else{
+          } else {
             return Center(child: CircularProgressIndicator());
           }
-        }
-    );
+        });
   }
 
   Future loadPage() async {
@@ -33,21 +31,27 @@ class SearchPageState extends State<SearchPage> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         return Column(
           children: <Widget>[
-            Expanded(child: SearchResultsList(query: query)),
             Container(
               padding: const EdgeInsets.all(10.0),
+//              color: Colors.black,
               child: TextField(
                 textInputAction: TextInputAction.search,
-                style: TextStyle(
-                  color: Colors.white
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 20),
                 decoration: InputDecoration(
                   labelText: "Поиск",
-                  icon: Icon(Icons.search, color: Colors.blueAccent,),
-                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.blueAccent,
+                    size: 20,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blueAccent)),
+
+//                  filled: true,
+//                  fillColor: Colors.black,
                 ),
                 onChanged: (String str) {
-                  if(str.length >=3)
+                  if (str.length >= 3)
                     setState(() {
                       query = str;
                     });
@@ -59,14 +63,17 @@ class SearchPageState extends State<SearchPage> {
                 },
               ),
             ),
+            Expanded(child: SearchResultsList(query: query)),
           ],
         );
       }
     } on SocketException catch (_) {
-      return Center(child: Text('Необходим доступ к интернету', style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold
-      ),),);
+      return Center(
+        child: Text(
+          'Необходим доступ к интернету',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      );
     }
   }
 }

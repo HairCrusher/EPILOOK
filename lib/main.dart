@@ -17,11 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Startap Name Generator',
+      title: 'EpiLook',
       theme: ThemeData(
         primaryColor: Colors.black,
         cardColor: Colors.black,
         scaffoldBackgroundColor: Color(0xFF191919),
+        appBarTheme: AppBarTheme(),
         buttonTheme: ButtonThemeData(
           buttonColor: Colors.white,
         ),
@@ -83,6 +84,11 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
     new Tab(icon: Icon(Icons.favorite)),
   ];
 
+  final List<String> menu = [
+    'First',
+    'Second'
+  ];
+
   int _index = 1;
 
   void switchPageTo(int index){
@@ -99,7 +105,33 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('EPILOOK'),
+        title: Image.asset('assets/ic_launcher.png'),
+        actions: <Widget>[
+          Theme(
+//            data: Theme.of(context).copyWith(
+//              cardColor: Colors.white,
+//              appBarTheme: AppBarTheme(
+//                actionsIconTheme: IconThemeData(
+//                  color: Colors.deepOrange
+//                )
+//              )
+//            ),
+            data: ThemeData(
+              cardColor: Color(0xFF191919)
+            ),
+            child: PopupMenuButton(
+              icon: Icon(Icons.more_vert, color: Colors.white,),
+              itemBuilder: (BuildContext context) {
+                return menu.map((String menuItem) {
+                  return PopupMenuItem(
+                    child: Text(menuItem, style: TextStyle(color: Colors.white),),
+                    value: menuItem,
+                  );
+                }).toList();
+              },
+            ),
+          )
+        ],
       ),
       body: TabBarView(
         children: <Widget>[

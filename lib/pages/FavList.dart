@@ -27,7 +27,36 @@ class _FavListPageState extends State<FavListPage>{
           future: DBProvider.db.getFavSerials(),
           builder: (BuildContext context, AsyncSnapshot<List<Serial>> snapshot) {
             if(snapshot.hasData){
-//            debugPrint(snapshot.data.toString());
+              if(snapshot.data.length == 0)
+                return Center(
+                    child: Container(
+                        height: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Вы еще не добавили ни одного\r\nсериала в избранное!', style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize:16,
+                            ), textAlign: TextAlign.center,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.favorite_border, color: Colors.red, size: 40,),
+                                Icon(Icons.arrow_forward, color: Colors.white, size: 40,),
+                                Icon(Icons.favorite, color: Colors.red, size: 40,),
+                              ],
+                            ),
+                            Text('Нажмите на сердечко\r\nна карточке сериала', style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize:16,
+                            ), textAlign: TextAlign.center,)
+                          ],
+                        )
+                    )
+                );
+
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index){
