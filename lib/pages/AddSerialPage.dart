@@ -51,10 +51,11 @@ class AddSerialPageState extends State<AddSerialPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('assets/ic_launcher.png'),
+        title: Image.asset('assets/logoText.png', height: 30,),
         actions: <Widget>[
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
+              //TODO Menu buttons 2
               return globalMainPage.currentState.menu.map((String menuItem) {
                 return PopupMenuItem(
                   child: Text(
