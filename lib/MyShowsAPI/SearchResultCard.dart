@@ -96,6 +96,7 @@ class SearchResultCardState extends State<SearchResultCard> {
                       onPressed: () {
                         Navigator.push(context, PageRouteBuilder(
                           opaque: false,
+                          barrierDismissible: true,
                           pageBuilder: (BuildContext context, _, __) => DescPopup(title: serial.title, desc: serial.description),
                           transitionsBuilder: (___, animation, _____, child){
                             return FadeTransition(

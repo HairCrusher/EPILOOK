@@ -128,7 +128,7 @@ class AddSerialPageState extends State<AddSerialPage> {
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Colors.white, fontSize: 20),
               decoration: InputDecoration(
-                labelText: 'Назвение сериала',
+                labelText: 'Название сериала',
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blueAccent)),
                 focusedBorder: OutlineInputBorder(

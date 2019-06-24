@@ -105,7 +105,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('assets/ic_launcher.png'),
+        title: Image.asset('assets/logoText.png', height: 30,),
         actions: <Widget>[
           Theme(
 //            data: Theme.of(context).copyWith(
