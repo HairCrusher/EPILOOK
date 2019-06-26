@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/Database/Database.dart';
 import 'package:flutter_app/Database/SerialModel.dart';
+import 'package:flutter_app/AppbarMenuItems.dart';
 
 class AddSerialPage extends StatefulWidget {
   @override
@@ -53,19 +54,31 @@ class AddSerialPageState extends State<AddSerialPage> {
       appBar: AppBar(
         title: Image.asset('assets/logoText.png', height: 30,),
         actions: <Widget>[
-          PopupMenuButton(
-            itemBuilder: (BuildContext context) {
-              //TODO Menu buttons 2
-              return globalMainPage.currentState.menu.map((String menuItem) {
-                return PopupMenuItem(
-                  child: Text(
-                    menuItem,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  value: menuItem,
-                );
-              }).toList();
-            },
+          Theme(
+//            data: Theme.of(context).copyWith(
+//              cardColor: Colors.white,
+//              appBarTheme: AppBarTheme(
+//                actionsIconTheme: IconThemeData(
+//                  color: Colors.deepOrange
+//                )
+//              )
+//            ),
+            data: ThemeData(cardColor: Color(0xFF191919)),
+            child: PopupMenuButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+              onSelected: (index) {
+                Navigator.push(
+                    this.context,
+                    MaterialPageRoute(
+                        builder: (context) => AppbarMenuItems.getPage(index)));
+              },
+              itemBuilder: (BuildContext context) {
+                return AppbarMenuItems().menuList;
+              },
+            ),
           )
         ],
       ),

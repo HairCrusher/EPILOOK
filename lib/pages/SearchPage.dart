@@ -51,7 +51,7 @@ class SearchPageState extends State<SearchPage> {
 //                  fillColor: Colors.black,
                 ),
                 onChanged: (String str) {
-                  if (str.length >= 3)
+                  if (str.length >= 3 || str.length == 0)
                     setState(() {
                       query = str;
                     });
