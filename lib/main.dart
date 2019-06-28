@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/FavList.dart';
 import 'package:flutter_app/pages/SerialsList.dart';
 import 'package:flutter_app/pages/SearchPage.dart';
+import 'package:flutter_app/AppbarMenuItems.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_){
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(MyApp());
   });
 }
@@ -19,39 +21,30 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'EpiLook',
       theme: ThemeData(
-        primaryColor: Colors.black,
-        cardColor: Colors.black,
-        scaffoldBackgroundColor: Color(0xFF191919),
-        appBarTheme: AppBarTheme(),
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.white,
-        ),
-        dialogTheme: DialogTheme(
-          titleTextStyle: TextStyle(
-            color: Colors.white
+          primaryColor: Colors.black,
+          cardColor: Colors.black,
+          scaffoldBackgroundColor: Color(0xFF191919),
+          appBarTheme: AppBarTheme(),
+          buttonTheme: ButtonThemeData(
+            buttonColor: Colors.white,
           ),
-          backgroundColor: Color(0xFF191919),
-          contentTextStyle: TextStyle(
-            color: Colors.white
-          )
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          labelStyle: TextStyle(
+          dialogTheme: DialogTheme(
+              titleTextStyle: TextStyle(color: Colors.white),
+              backgroundColor: Color(0xFF191919),
+              contentTextStyle: TextStyle(color: Colors.white)),
+          inputDecorationTheme: InputDecorationTheme(
+              labelStyle: TextStyle(
             color: Colors.blueAccent,
-          )
-        ),
-        tabBarTheme: TabBarTheme(
-          unselectedLabelColor: Colors.white,
-          labelColor: Colors.blueAccent,
-          indicator: UnderlineTabIndicator(
-            borderSide: BorderSide(
-              color: Colors.blueAccent,
-              width: 2
-            ),
-          )
-        )
+          )),
+          tabBarTheme: TabBarTheme(
+              unselectedLabelColor: Colors.white,
+              labelColor: Colors.blueAccent,
+              indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+              ))),
+      home: MainPage(
+        key: globalMainPage,
       ),
-      home: MainPage(key: globalMainPage,),
 //      routes: {
 //        '/':(BuildContext context) => MainPage(page_id: 1),
 //        '/search':(BuildContext context) => MainPage(page_id: 0,),
@@ -67,14 +60,15 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key}):super(key: key);
+  MainPage({Key key}) : super(key: key);
 
   @override
   State createState() => new MainPageState();
 }
 
-class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
-  double listViewOffset=0.0;
+class MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
+  double listViewOffset = 0.0;
 
   TabController _tabController;
 
@@ -84,28 +78,27 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
     new Tab(icon: Icon(Icons.favorite)),
   ];
 
-  final List<String> menu = [
-    'First',
-    'Second'
-  ];
-
   int _index = 1;
 
-  void switchPageTo(int index){
+  void switchPageTo(int index) {
     this._tabController.index = index;
   }
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: myTabs.length, initialIndex: _index);
+    _tabController = new TabController(
+        vsync: this, length: myTabs.length, initialIndex: _index);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('assets/logoText.png', height: 30,),
+        title: Image.asset(
+          'assets/logoText.png',
+          height: 30,
+        ),
         actions: <Widget>[
           Theme(
 //            data: Theme.of(context).copyWith(
@@ -116,19 +109,21 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
 //                )
 //              )
 //            ),
-            data: ThemeData(
-              cardColor: Color(0xFF191919)
-            ),
+            data: ThemeData(cardColor: Color(0xFF191919)),
             child: PopupMenuButton(
-              icon: Icon(Icons.more_vert, color: Colors.white,),
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+              onSelected: (index) {
+                Navigator.push(
+                    this.context,
+                    MaterialPageRoute(
+                        builder: (context) => AppbarMenuItems.getPage(index)));
+              },
+
               itemBuilder: (BuildContext context) {
-                //TODO Menu buttons
-                return menu.map((String menuItem) {
-                  return PopupMenuItem(
-                    child: Text(menuItem, style: TextStyle(color: Colors.white),),
-                    value: menuItem,
-                  );
-                }).toList();
+                return AppbarMenuItems().menuList;
               },
             ),
           )
@@ -152,156 +147,4 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
       ),
     );
   }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-class RandomWordState extends State<RandomWords> {
-  final List<WordPair> _suggestions = <WordPair>[];
-  final Set<WordPair> _saved = new Set<WordPair>();
-  final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Startap Name Generator'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: _pushSaved,
-          ),
-        ],
-      ),
-      body: _buildSuggestions(),
-//      drawer: Drawer(
-//        child: ListView(
-//          padding: EdgeInsets.zero,
-//          children: <Widget>[
-//            DrawerHeader(
-////              child: Text('Drawer Header'),
-//              decoration: BoxDecoration(
-//                  color: Colors.blue,
-//                  shape: BoxShape.circle
-//              ),
-//            ),
-//            ListTile(
-//              title: Text('Item 1'),
-//              onTap: () {
-//                Navigator.pop(context);
-//              },
-//            ),
-//            ListTile(
-//              title: Text('Item 2'),
-//              onTap: () {
-//                Navigator.pop(context);
-//              },
-//            ),
-//          ],
-//        ),
-//      ),
-      bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              title: Text('first'),
-              icon: Icon(Icons.ac_unit),
-            ),
-            BottomNavigationBarItem(
-              title: Text('second'),
-              icon: Icon(Icons.map),
-            ),
-            BottomNavigationBarItem(
-              title: Text('thrid'),
-              icon: Icon(Icons.account_balance_wallet),
-            )
-          ],
-        currentIndex: 1,
-      ),
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: (context, i) {
-          if (i.isOdd) return Divider();
-
-          final index = i ~/ 2;
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
-          return _buildRow(_suggestions[index]);
-        });
-  }
-
-  Widget _buildRow(WordPair pair) {
-    final bool alreadySaved = _saved.contains(pair);
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-      trailing: new Icon(
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
-      ),
-      onTap: () {
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },
-    );
-  }
-
-  void _pushSaved() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      final Iterable<ListTile> tiles = _saved.map((WordPair pair) {
-        return ListTile(
-          title: Text(
-            pair.asPascalCase,
-            style: _biggerFont,
-          ),
-        );
-      });
-      final List<Widget> divided =
-          ListTile.divideTiles(context: context, tiles: tiles).toList();
-
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Saved Suggestions'),
-        ),
-        body: ListView(
-          children: divided,
-        ),
-      );
-    }));
-  }
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  State createState() => new RandomWordState();
 }
