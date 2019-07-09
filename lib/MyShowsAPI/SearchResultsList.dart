@@ -13,18 +13,25 @@ class SearchResultsList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (_query == "")
       return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Container(
+            padding: EdgeInsets.only(bottom: 80),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Воспользуйтесь поиском или', style: TextStyle(color: Colors.white),),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AddSerialPage()));
-            },
-            child: Text('Добавьте сериал самостоятельно'),
-          ),
+            Text('Воспользуйтесь поиском или', style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize:16,
+            ),),
+            RaisedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddSerialPage()));
+              },
+              child: Text('Добавьте сериал самостоятельно'),
+            ),
         ],
-      ));
+      ),
+          ));
 
     return Container(
       child: FutureBuilder<List<Result>>(
