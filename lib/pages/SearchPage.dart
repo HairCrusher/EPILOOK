@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/MyShowsAPI/SearchResultsList.dart';
 import 'dart:io';
 
+import 'package:flutter_app/pages/AddSerialPage.dart';
+
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
 
@@ -69,9 +71,20 @@ class SearchPageState extends State<SearchPage> {
       }
     } on SocketException catch (_) {
       return Center(
-        child: Text(
-          'Необходим доступ к интернету',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Необходим доступ к интернету',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            RaisedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddSerialPage()));
+              },
+              child: Text('Добавьте сериал самостоятельно'),
+            ),
+          ],
         ),
       );
     }

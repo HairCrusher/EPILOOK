@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/FavList.dart';
 import 'package:flutter_app/pages/SerialsList.dart';
@@ -93,14 +92,15 @@ class MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          'assets/logoText.png',
-          height: 30,
-        ),
-        actions: <Widget>[
-          Theme(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Image.asset(
+            'assets/logoText.png',
+            height: 30,
+          ),
+          actions: <Widget>[
+            Theme(
 //            data: Theme.of(context).copyWith(
 //              cardColor: Colors.white,
 //              appBarTheme: AppBarTheme(
@@ -109,40 +109,41 @@ class MainPageState extends State<MainPage>
 //                )
 //              )
 //            ),
-            data: ThemeData(cardColor: Color(0xFF191919)),
-            child: PopupMenuButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              ),
-              onSelected: (index) {
-                Navigator.push(
-                    this.context,
-                    MaterialPageRoute(
-                        builder: (context) => AppbarMenuItems.getPage(index)));
-              },
+              data: ThemeData(cardColor: Color(0xFF191919)),
+              child: PopupMenuButton(
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
+                onSelected: (index) {
+                  Navigator.push(
+                      this.context,
+                      MaterialPageRoute(
+                          builder: (context) => AppbarMenuItems.getPage(index)));
+                },
 
-              itemBuilder: (BuildContext context) {
-                return AppbarMenuItems().menuList;
-              },
-            ),
-          )
-        ],
-      ),
-      body: TabBarView(
-        children: <Widget>[
-          SearchPage(key: PageStorageKey<String>('SearchPage')),
-          SerialsListPage(key: PageStorageKey<String>('SerialsList')),
-          FavListPage(key: PageStorageKey<String>('FavList'))
-        ],
-        controller: _tabController,
-      ),
-      bottomNavigationBar: Material(
-        color: Colors.black,
-        child: TabBar(
-          tabs: myTabs,
+                itemBuilder: (BuildContext context) {
+                  return AppbarMenuItems().menuList;
+                },
+              ),
+            )
+          ],
+        ),
+        body: TabBarView(
+          children: <Widget>[
+            SearchPage(key: PageStorageKey<String>('SearchPage')),
+            SerialsListPage(key: PageStorageKey<String>('SerialsList')),
+            FavListPage(key: PageStorageKey<String>('FavList'))
+          ],
           controller: _tabController,
+        ),
+        bottomNavigationBar: Material(
+          color: Colors.black,
+          child: TabBar(
+            tabs: myTabs,
+            controller: _tabController,
 //        labelColor: Colors.blue,
+          ),
         ),
       ),
     );
