@@ -34,22 +34,14 @@ class SearchResultCardState extends State<SearchResultCard> {
           Center(
             child: CachedNetworkImage(
               width: MediaQuery.of(context).size.width - 5,
-//              height: 192,
               imageUrl: serial.image,
               placeholder: (context, url) => Container(
                 height: 192,
                 child: Center(child: CircularProgressIndicator(),),
               ),
               errorWidget: (context, url, error) => new Icon(Icons.error, color: Colors.white,),
-//              errorWidget: (context, url, error) => new Text(error.toString()),
               fit: BoxFit.cover,
             ),
-//          child: FadeInImage.assetNetwork(
-//              placeholder: 'assets/loading.gif',
-//              image: serial.image,
-//              fit: BoxFit.cover,
-//
-//          ),
           ),
           Positioned(
             bottom: 10,

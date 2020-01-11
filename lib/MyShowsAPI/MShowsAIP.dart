@@ -23,9 +23,9 @@ class MShowsAPI {
       resData['method'] = method;
       resData['params'] = params;
       var res = await http.post(url, body: jsonEncode(resData), headers: headers);
-//      print(jsonDecode(res.body));
+      String body = utf8.decode(res.bodyBytes);
       List<Result> list =
-        res.body.isNotEmpty ? ApiResponse.fromMap(jsonDecode(res.body)).result : [];
+        body.isNotEmpty ? ApiResponse.fromMap(jsonDecode(body)).result : [];
       return list;
   }
 

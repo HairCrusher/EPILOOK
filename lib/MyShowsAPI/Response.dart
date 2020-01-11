@@ -79,7 +79,7 @@ class Result {
 
   factory Result.fromMap(Map<String, dynamic> json) => new Result(
     id: json["id"],
-    title: json["title"],
+    title: utf8.decode(json["title"]),
     titleOriginal: json["titleOriginal"],
     description: json["description"],
     totalSeasons: json["totalSeasons"],

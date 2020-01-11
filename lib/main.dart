@@ -4,11 +4,15 @@ import 'package:flutter_app/pages/FavList.dart';
 import 'package:flutter_app/pages/SerialsList.dart';
 import 'package:flutter_app/pages/SearchPage.dart';
 import 'package:flutter_app/AppbarMenuItems.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(MyApp());
+    FlutterStatusbarcolor.setStatusBarColor(Colors.black).then((__){
+      FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+      runApp(MyApp());
+    });
   });
 }
 
@@ -18,12 +22,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'EpiLook',
       theme: ThemeData(
           primaryColor: Colors.black,
           cardColor: Colors.black,
           scaffoldBackgroundColor: Color(0xFF191919),
-          appBarTheme: AppBarTheme(),
           buttonTheme: ButtonThemeData(
             buttonColor: Colors.white,
           ),
@@ -44,16 +48,6 @@ class MyApp extends StatelessWidget {
       home: MainPage(
         key: globalMainPage,
       ),
-//      routes: {
-//        '/':(BuildContext context) => MainPage(page_id: 1),
-//        '/search':(BuildContext context) => MainPage(page_id: 0,),
-//      },
-//      onGenerateRoute: (routeSettings) {
-//        var path = routeSettings.name.split('/');
-//
-//        if(path[1] == 'single')
-//          return new MaterialPageRoute(builder: (context) => new SinglePage(serial: int.parse(path[2])));
-//      },
     );
   }
 }
